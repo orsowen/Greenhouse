@@ -64,12 +64,12 @@ public class SignUpActivity extends AppCompatActivity {
         String confirmPassword = confirmPasswordEditText.getText().toString();
         String namef= name.getText().toString();
 
-        Double waterLevel=0.0;
-        Double waterPH=0.0;
-        Double waterNutrient=0.0;
-        Double waterTemp=0.0;
-        Double airTemp=0.0;
-        Double airHumidity=0.0;
+        String waterLevel="0.0";
+        String waterPH="0.0";
+        String waterNutrient="0.0";
+        String waterTemp="0.0";
+        String airTemp="0.0";
+        String airHumidity="0.0";
 
 
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -94,12 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
                             Map<String, Object>user = new HashMap<>();
                             user.put("email",email);
                             user.put("name",namef);
-                            user.put("waterLevel",waterLevel);
-                            user.put("waterPH",waterPH);
-                            user.put("waterNutrient",waterNutrient);
-                            user.put("waterTemp",waterTemp);
-                            user.put("airTemp",airTemp);
-                            user.put("airHumidity",airHumidity);
+                            user.put("waterLevel", Double.parseDouble(waterLevel));
+                            user.put("waterPH", Double.parseDouble(waterPH));
+                            user.put("waterNutrient", Double.parseDouble(waterNutrient));
+                            user.put("waterTemp", Double.parseDouble(waterTemp));
+                            user.put("airTemp", Double.parseDouble(airTemp));
+                            user.put("airHumidity", Double.parseDouble(airHumidity));
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
