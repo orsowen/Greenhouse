@@ -40,17 +40,22 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/border_title"/>
 
-            <ProgressBar
+            <cjh.WaveProgressBarlibrary.WaveProgressBar
                 android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="28dp"
+                android:layout_marginBottom="28dp"
                 android:indeterminate="false"
-                android:max="100"
-                android:progress="80"
-                android:progressDrawable="@drawable/custom_circular_progress" />
+                app:behind_wave_color="#01A1D6"
+                app:front_wave_color="#9DD8ED"
+                app:arc_color="#fff"
+                app:cavans_bg="#000"
+                app:text_follow_progress="true"
+                app:progress="70"
+                app:shape="circle"
+                app:text_size="20sp"/>
         </LinearLayout>
 
         <LinearLayout
