@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">authentification</string>
+
+
+        <string name="water_level">Water Level</string>
+        <string name="water_PH">Water PH</string>
+        <string name="water_Nutrient">Water Nutrient</string>
+        <string name="Air_temp">Air Temperature</string>
+        <string name="water_temp">Water temperature</string>
+        <string name="Air_Humd">Air Humidity</string>
+
+</resources>

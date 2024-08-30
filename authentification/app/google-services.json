@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "635850755880",
+    "firebase_url": "https://hydroponic-41586-default-rtdb.firebaseio.com",
+    "project_id": "hydroponic-41586",
+    "storage_bucket": "hydroponic-41586.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635850755880:android:346db6345723bed5ad8a1d",
+        "android_client_info": {
+          "package_name": "com.example.authentification"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635850755880:android:dcd4aa945c6005b8ad8a1d",
+        "android_client_info": {
+          "package_name": "com.example.hydroponicsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635850755880:android:8807516fa188b952ad8a1d",
+        "android_client_info": {
+          "package_name": "com.example.hydroponicsystem2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
