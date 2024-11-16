@@ -8,8 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,29 +27,33 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class NextActivity extends AppCompatActivity {
-    private ProgressBar progressBarWaterLevel, progressBarPH, progressBarNutrient;
-    private TextView textViewWaterTemp, textViewAirTemp, textViewAirHumidity;
+    private ImageView waterlevelImg;
+    private TextView textViewWaterLevel,textViewWaterTemp, textViewAirTemp, textViewAirHumidity,textViewPH,textViewNutrient;
+    private LinearLayout histozone;
     private String userId;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private static final String CHANNEL_ID = "water_level_alert_channel";
     private static final int NOTIFICATION_ID = 001;
+    private Controle controle;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next);
-
+        this.controle = Controle.getInstance(this);
 
 
         // Initialize the ProgressBar and TextView instances
-        progressBarWaterLevel = findViewById(R.id.progressBar);
-        progressBarPH = findViewById(R.id.progressBar2);
-        progressBarNutrient = findViewById(R.id.progressBar3);
+        textViewWaterLevel = findViewById(R.id.wLevel);
+
+        textViewNutrient = findViewById(R.id.Nutrient);
 
         // Initialize Firebase Auth and Firestore
         auth = FirebaseAuth.getInstance();
@@ -55,12 +64,26 @@ public class NextActivity extends AppCompatActivity {
 
         // Initialize TextViews
         textViewWaterTemp = findViewById(R.id.wTemp);
+        textViewPH = findViewById(R.id.PH);
         textViewAirTemp = findViewById(R.id.aTemp);
         textViewAirHumidity = findViewById(R.id.aHum);
 
+        histozone = findViewById(R.id.HistoriqueLayout);
         // Listen for Firestore document updates in real-time
+        eventlistener();
         listenToFirestoreChanges();
         createNotificationChannel();
+    }
+
+    private void eventlistener(){
+        histozone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Action à réaliser lors du clic
+                Intent intent = new Intent(NextActivity.this, HistoActivity.class);
+                startActivity(intent);
+            }
+    });
     }
 
     private void listenToFirestoreChanges() {
@@ -86,6 +109,13 @@ public class NextActivity extends AppCompatActivity {
                         Double waterLevel = documentSnapshot.getDouble("waterLevel");
                         Double phLevel = documentSnapshot.getDouble("waterPH");
                         Double nutrientLevel = documentSnapshot.getDouble("waterNutrient");
+                        List<Double> tempValueWList = (List<Double>) documentSnapshot.get("TempVAlueW");
+                        List<Double> humValueAList = (List<Double>) documentSnapshot.get("HumValueA");
+                        List<Double> tempValueAList = (List<Double>) documentSnapshot.get("TempValueA");
+                        ArrayList<Double> TempValueW = new ArrayList<>(tempValueWList);
+                        ArrayList<Double> HumValueA = new ArrayList<>(humValueAList);
+                        ArrayList<Double> TempValueA = new ArrayList<>(tempValueAList);
+
 
                         // Update TextViews and ProgressBars
                         if (waterTemp != null) {
@@ -95,7 +125,6 @@ public class NextActivity extends AppCompatActivity {
                             } else if (waterTemp > 20) {
                                 sendNotification("Water Temperature Alert", "Temperature is "+waterTemp+" cool the water.");
                             }
-
                         }
                         if (airTemp != null) {
                             textViewAirTemp.setText(airTemp + "°C");
@@ -103,16 +132,16 @@ public class NextActivity extends AppCompatActivity {
                         if (airHumidity != null) {
                             textViewAirHumidity.setText(airHumidity + "%");
                         }
-
                         if (waterLevel != null) {
-                            progressBarWaterLevel.setProgress(waterLevel.intValue());
+                            waterlevelImg = (ImageView) findViewById(R.id.water_level_img);
+                            waterlevelImg.animate().scaleY(100f).setDuration(1000);
+                            textViewWaterLevel.setText(waterLevel.intValue()+"%");
                             if (waterLevel < 40) {
                                 sendNotification("Water Level Alert", "Water level is below 40! add nutrient ");
                             }
                         }
-
                         if (phLevel != null) {
-                            progressBarPH.setProgress(phLevel.intValue());
+                            textViewPH.setText(phLevel+"");
                             if (phLevel < 5.5) {
                                 sendNotification("pH Level Alert", " Ph level is "+phLevel+" Add base.");
                             }
@@ -122,8 +151,16 @@ public class NextActivity extends AppCompatActivity {
                         }
 
                         if (nutrientLevel != null) {
-                            progressBarNutrient.setProgress(nutrientLevel.intValue());
+                            textViewNutrient.setText(nutrientLevel.intValue());
                         }
+
+                        // Store the data in Controle class
+                        if (!controle.getDate().equals(Controle.date)) {
+                            controle.creerjour(NextActivity.this);
+                        }
+                        controle.setTempVAlueW(TempValueW);
+                        controle.setHumValueA(HumValueA);
+                        controle.setTempValueA(TempValueA);
 
                         // Example: Trigger notifications based on temperature and humidity
                         if (airTemp != null) {
@@ -153,10 +190,9 @@ public class NextActivity extends AppCompatActivity {
                     textViewWaterTemp.setText("No data");
                     textViewAirTemp.setText("No data");
                     textViewAirHumidity.setText("No data");
-
-                    progressBarWaterLevel.setProgress(0);
-                    progressBarPH.setProgress(0);
-                    progressBarNutrient.setProgress(0);
+                    textViewPH.setText("No data");
+                    textViewNutrient.setText("No data");
+                    textViewWaterLevel.setText("No data");
                 }
             }
         });
@@ -166,7 +202,12 @@ public class NextActivity extends AppCompatActivity {
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(this, NextActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         int notificationId = new Random().nextInt(10000); // Random ID for demonstration
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_warning)  // Replace with your app's icon
@@ -177,7 +218,9 @@ public class NextActivity extends AppCompatActivity {
                 .setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notificationId, builder.build());
+        if (notificationManager != null) {
+            notificationManager.notify(notificationId, builder.build());
+        }
     }
 
     private void createNotificationChannel() {
