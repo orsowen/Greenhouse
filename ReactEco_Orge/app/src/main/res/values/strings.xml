@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">EcoOrge</string>
+
+
+    <string name="water_level">Water Level</string>
+    <string name="water_PH">Water PH</string>
+    <string name="water_Nutrient">Water Nutrient</string>
+    <string name="Air_temp">Air Temperature</string>
+    <string name="water_temp">Water temperature</string>
+    <string name="Air_Humd">Air Humidity</string>
+    <string name="histo_title">resume du jour</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="signe_In">Already have an account? Log In</string>
+    <string name="todo">TODO</string>
+    <string name="sign_up">Don\'t have an account? Sign Up</string>
+    <string name="login">Login</string>
+</resources>

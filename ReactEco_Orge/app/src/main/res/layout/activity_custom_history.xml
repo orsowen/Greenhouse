@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".Custom_history">
+
+
+    <TextView
+        android:id="@+id/Date"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Date"
+        android:background="@drawable/border_textview"/>
+
+    <TextView
+        android:id="@+id/Humidite"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Humidite"
+        android:background="@drawable/border_textview"/>
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="temperature"
+        android:background="@drawable/border_textview"/>
+
+    <TextView
+        android:id="@+id/Water_Level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="water_level"
+        android:background="@drawable/border_textview"/>
+</LinearLayout>
