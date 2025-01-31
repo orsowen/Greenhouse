@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/border_textview"
-            android:text="water LVL" />
+            android:text="waterTmp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

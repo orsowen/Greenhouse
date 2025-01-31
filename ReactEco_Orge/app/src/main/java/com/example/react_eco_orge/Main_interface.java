@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.auth.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +42,8 @@ public class Main_interface extends AppCompatActivity {
     private FirebaseFirestore db;
     private static final String CHANNEL_ID = "water_level_alert_channel";
     private static final int NOTIFICATION_ID = 001;
+    List<Double> historyHumd,historyTemp,historyWaterTemp ;
+    List<String> date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,10 @@ public class Main_interface extends AppCompatActivity {
                 if (UserExist)
                 {
                 Intent intent = new Intent(Main_interface.this, Historique.class);
+                    intent.putExtra("historyHumd", (Serializable) historyHumd);
+                    intent.putExtra("historyTemp", (Serializable) historyTemp);
+                    intent.putExtra("historyWaterTemp", (Serializable) historyWaterTemp);
+                    intent.putExtra("date", (Serializable) date);
                 startActivity(intent);
                 }
                 else {
@@ -107,10 +114,14 @@ public class Main_interface extends AppCompatActivity {
                         Double waterLevel = documentSnapshot.getDouble("waterLevel");
                         Double phLevel = documentSnapshot.getDouble("waterPH");
                         Double nutrientLevel = documentSnapshot.getDouble("waterNutrient");
+                        historyHumd = (List<Double>) documentSnapshot.get("historyHumd");
+                        historyTemp = (List<Double>) documentSnapshot.get("historytemp");
+                        historyWaterTemp = (List<Double>) documentSnapshot.get("historywaterTemp");
+                        date = (List<String>) documentSnapshot.get("date");
 
                         // Update TextViews and ProgressBars
                         if (waterTemp != null) {
-                            textViewWaterTemp.setText(waterTemp + "°C");
+                            textViewWaterTemp.setText(String.format("%.2f°C", waterTemp));
                             if (waterTemp < 17) {
                                 sendNotification("Water Temperature Alert", "Temperature is "+waterTemp+" Heat the water.");
                             } else if (waterTemp > 20) {

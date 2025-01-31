@@ -20,7 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Sign_up extends AppCompatActivity {
@@ -72,7 +76,10 @@ public class Sign_up extends AppCompatActivity {
         String waterTemp="0.0";
         String airTemp="0.0";
         String airHumidity="0.0";
-
+        List<String> date = new ArrayList<>();
+        List<Double> historyHumd = new ArrayList<>();
+        List<Double> historytemp = new ArrayList<>();
+        List<Double> historywaterTemp = new ArrayList<>();
 
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -102,6 +109,10 @@ public class Sign_up extends AppCompatActivity {
                             user.put("waterTemp", Double.parseDouble(waterTemp));
                             user.put("airTemp", Double.parseDouble(airTemp));
                             user.put("airHumidity", Double.parseDouble(airHumidity));
+                            user.put("date", date);
+                            user.put("historyHumd", historyHumd);  // Storing humidity data in a list
+                            user.put("historytemp", historytemp);      // Storing temperature data in a list
+                            user.put("historywaterTemp", historywaterTemp); // Storing water temperature in a list
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

@@ -9,13 +9,13 @@ import android.widget.TextView;
 
 public class CustomAdap extends BaseAdapter {
 
-    int temp[];
-    int humd[];
-    String days[];
-    int waterlevel[];
+    Object temp[];
+    Object humd[];
+    Object days[];
+    Object waterlevel[];
     Context contx;
     LayoutInflater inflater;
-    public CustomAdap(Context ctx, int[] humd, int[] temp, String[] days,int [] water_level)
+    public CustomAdap(Context ctx, Object[] humd, Object[] temp, Object[] days, Object[] water_level)
     {
         this.temp = temp;
         this.humd = humd;
@@ -47,7 +47,7 @@ public class CustomAdap extends BaseAdapter {
         TextView textView_humidite = (TextView) convertView.findViewById(R.id.Humidite);
         TextView textView_waterLVL = (TextView) convertView.findViewById(R.id.Water_Level);
         TextView textView_temperature = (TextView) convertView.findViewById(R.id.temperature);
-        textView_Date.setText(days[Index_of_Row]);
+        textView_Date.setText(String.valueOf(days[Index_of_Row]));
         textView_waterLVL.setText(String.valueOf(waterlevel[Index_of_Row]));
         textView_humidite.setText(String.valueOf(humd[Index_of_Row]));
         textView_temperature.setText(String.valueOf(temp[Index_of_Row]));
