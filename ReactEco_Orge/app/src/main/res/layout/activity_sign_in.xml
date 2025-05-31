@@ -7,17 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".Sign_in"
     android:orientation="vertical"
-    android:background="@drawable/backgroundimg"
+    android:background="@color/white"
     android:gravity="center">
 
     <!-- App Logo -->
     <ImageView
         android:id="@+id/logoImageView"
-        android:layout_width="162dp"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="32dp"
-        android:src="@drawable/ecoorgee" />
+        android:src="@drawable/logo_" />
 
     <!-- Email Input Field -->
     <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +59,7 @@
         android:text="@string/login"
         android:textStyle="bold"
         android:textColor="@android:color/white"
-        android:backgroundTint="@color/primaryColor"
+        android:backgroundTint="@color/colornew"
         android:layout_margin="16dp"
         android:elevation="4dp" />
 
@@ -68,7 +68,7 @@
         android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primaryColor"
+        android:textColor="@color/black"
         android:text="@string/sign_up"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"

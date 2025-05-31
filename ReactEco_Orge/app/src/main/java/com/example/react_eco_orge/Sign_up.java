@@ -39,13 +39,12 @@ public class Sign_up extends AppCompatActivity {
     private FirebaseFirestore fstore;
     String userId;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        fstore=FirebaseFirestore.getInstance();
+        fstore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
         emailEditText = findViewById(R.id.emailEditText);
@@ -53,7 +52,7 @@ public class Sign_up extends AppCompatActivity {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         signupButton = findViewById(R.id.signupButton);
         loginTextView = findViewById(R.id.loginTextView);
-        name=findViewById(R.id.nom);
+        name = findViewById(R.id.nom);
         signupButton.setOnClickListener(v -> registerUser());
 
         loginTextView.setOnClickListener(v -> {
@@ -68,14 +67,14 @@ public class Sign_up extends AppCompatActivity {
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String confirmPassword = confirmPasswordEditText.getText().toString();
-        String namef= name.getText().toString();
+        String namef = name.getText().toString();
 
-        String waterLevel="0.0";
-        String waterPH="0.0";
-        String waterNutrient="0.0";
-        String waterTemp="0.0";
-        String airTemp="0.0";
-        String airHumidity="0.0";
+        String waterLevel = "0.0";
+        String waterPH = "0.0";
+        String waterNutrient = "0.0";
+        String waterTemp = "0.0";
+        String airTemp = "26.0";
+        String airHumidity = "0.0";
         List<String> date = new ArrayList<>();
         List<Double> historyHumd = new ArrayList<>();
         List<Double> historytemp = new ArrayList<>();
@@ -98,11 +97,12 @@ public class Sign_up extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign up success, navigate to next activity or main screen
                             Toast.makeText(Sign_up.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            userId=auth.getCurrentUser().getUid();
-                            DocumentReference documentReference= fstore.collection("users").document(userId);
-                            Map<String, Object>user = new HashMap<>();
-                            user.put("email",email);
-                            user.put("name",namef);
+                            userId = auth.getCurrentUser().getUid();
+
+                            DocumentReference documentReference = fstore.collection("users").document(userId);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("email", email);
+                            user.put("name", namef);
                             user.put("waterLevel", Double.parseDouble(waterLevel));
                             user.put("waterPH", Double.parseDouble(waterPH));
                             user.put("waterNutrient", Double.parseDouble(waterNutrient));
@@ -110,14 +110,15 @@ public class Sign_up extends AppCompatActivity {
                             user.put("airTemp", Double.parseDouble(airTemp));
                             user.put("airHumidity", Double.parseDouble(airHumidity));
                             user.put("date", date);
-                            user.put("historyHumd", historyHumd);  // Storing humidity data in a list
-                            user.put("historytemp", historytemp);      // Storing temperature data in a list
+                            user.put("historyHumd", historyHumd); // Storing humidity data in a list
+                            user.put("historytemp", historytemp); // Storing temperature data in a list
                             user.put("historywaterTemp", historywaterTemp); // Storing water temperature in a list
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Log.d(TAG, "onSucccess: user profile created successfully" + userId);
+                                    Log.d("TAG", userId);
+
                                 }
                             });
 
@@ -126,7 +127,8 @@ public class Sign_up extends AppCompatActivity {
                             finish();
                         } else {
                             // If sign up fails, display a message to the user.
-                            Toast.makeText(Sign_up.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Sign_up.this, "Registration Failed: " + task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

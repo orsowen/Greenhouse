@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "635850755880",
-    "firebase_url": "https://hydroponic-41586-default-rtdb.firebaseio.com",
-    "project_id": "hydroponic-41586",
-    "storage_bucket": "hydroponic-41586.firebasestorage.app"
+    "project_number": "1088231214302",
+    "firebase_url": "https://serreessai-default-rtdb.firebaseio.com",
+    "project_id": "serreessai",
+    "storage_bucket": "serreessai.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635850755880:android:346db6345723bed5ad8a1d",
+        "mobilesdk_app_id": "1:1088231214302:android:0f3dafc69e4b0f80f5064f",
         "android_client_info": {
           "package_name": "com.example.react_eco_orge"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+          "current_key": "AIzaSyDCLkcUigXlh-vFIt-h-iBzqrlj7lqSHUA"
         }
       ],
       "services": {
@@ -27,15 +27,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635850755880:android:dcd4aa945c6005b8ad8a1d",
+        "mobilesdk_app_id": "1:1088231214302:android:3546c13f0eea64d3f5064f",
         "android_client_info": {
-          "package_name": "com.example.hydroponicsystem"
+          "package_name": "com.example.serreintelligente"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+          "current_key": "AIzaSyDCLkcUigXlh-vFIt-h-iBzqrlj7lqSHUA"
         }
       ],
       "services": {
@@ -46,34 +46,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635850755880:android:8807516fa188b952ad8a1d",
+        "mobilesdk_app_id": "1:1088231214302:android:7bd76191e024fb49f5064f",
         "android_client_info": {
-          "package_name": "com.example.hydroponicsystem2"
+          "package_name": "com.exemple.react_eco_orge"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:635850755880:android:cbb6e73ec261e3f2ad8a1d",
-        "android_client_info": {
-          "package_name": "com.react.ReactEco_Orge"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC_KDyJ5gbg63SRX4k_phFPMNZw4fSa8GI"
+          "current_key": "AIzaSyDCLkcUigXlh-vFIt-h-iBzqrlj7lqSHUA"
         }
       ],
       "services": {

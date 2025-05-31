@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="backgroundColor">#F5F5F5</color>
-    <color name="primaryColor">#3F51B5</color>
-    <color name="primaryDarkColor">#303F9F</color>
+        <color name="primaryColor">#2E7D32</color> <!-- Vert foncé moderne -->
+        <color name="primaryDarkColor">#1B5E20</color>
+        <color name="primaryLightColor">#81C784</color>
+        <color name="secondaryColor">#0288D1</color> <!-- Bleu pour accents -->
+        <color name="background">#F5F9F5</color> <!-- Fond très clair légèrement verdâtre -->
+        <color name="textPrimary">#212121</color>
+        <color name="textSecondary">#757575</color>
+        <color name="white">#FFFFFF</color>
+        <color name="cardBackground">#FFFFFF</color>
+        <color name="errorColor">#D32F2F</color>
+        <color name="your_selected_color">#FF0000</color>
+        <color name="your_unselected_color">#808080</color>
+        <color name="primary_color">#3F51B5</color>
+        <color name="black">#000000</color>
+        <color name="colornew">#56e6dc</color>
+
 </resources>
