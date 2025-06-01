@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">EcoOrge</string>
-
-
-    <string name="water_level">Water Level</string>
+    <string name="water_level">Soil Moisture</string>  <!-- Modifié -->
     <string name="water_PH">Water PH</string>
     <string name="water_Nutrient">Water Nutrient</string>
-    <string name="Air_temp">Air Temperature</string>
+    <string name="Air_temp">Temperature</string>  <!-- Modifié -->
     <string name="water_temp">Water temperature</string>
     <string name="Air_Humd">Air Humidity</string>
-    <string name="histo_title">resume du jour</string>
+    <string name="histo_title">Daily Summary</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="password">Password</string>
     <string name="email">Email</string>

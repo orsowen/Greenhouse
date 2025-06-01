@@ -25,6 +25,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.firestore.auth.User;
 
 import java.io.Serializable;
@@ -33,206 +35,139 @@ import java.util.List;
 import java.util.Random;
 
 public class Main_interface extends AppCompatActivity {
-
+    private TextView textViewSoilMoisture, textViewTemperature;
     private ImageView waterlevelImg;
-    private TextView textViewWaterLevel,textViewWaterTemp, textViewAirTemp, textViewAirHumidity,textViewPH,textViewNutrient;
     private LinearLayout histozone;
     private String userId;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
-    private static final String CHANNEL_ID = "water_level_alert_channel";
-    private static final int NOTIFICATION_ID = 001;
-    List<Double> historyHumd,historyTemp,historyWaterTemp ;
-    List<String> date;
+    private static final String CHANNEL_ID = "sensor_alerts";
+    private List<Double> historyHumd, historyTemp;
+    private List<String> date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_interface);
 
-        // Initialize the ProgressBar and TextView instances
-        textViewWaterLevel = findViewById(R.id.wLevel);
-        textViewNutrient = findViewById(R.id.Nutrient);
-
-        // Initialize TextViews
-        textViewWaterTemp = findViewById(R.id.wTemp);
-        textViewPH = findViewById(R.id.PH);
-        textViewAirTemp = findViewById(R.id.aTemp);
-        textViewAirHumidity = findViewById(R.id.aHum);
+        // Initialisation des vues
+        textViewSoilMoisture = findViewById(R.id.wLevel);
+        textViewTemperature = findViewById(R.id.aTemp);
+        waterlevelImg = findViewById(R.id.water_level_img);
         histozone = findViewById(R.id.HistoriqueLayout);
 
-
-
-        // Initialize Firebase Auth and Firestore
+        // Initialisation Firebase
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        if (user!= null) {
-            // Get current user's ID
-            userId = auth.getCurrentUser().getUid();
+
+        if (user != null) {
+            userId = user.getUid();
             listenToFirestoreChanges();
             createNotificationChannel();
         }
-        // Listen for Firestore document updates in real-time
-        eventlistener(!(user == null));
-
     }
 
-    private void eventlistener(boolean UserExist){
-        histozone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Action à réaliser lors du clic
-                if (UserExist)
-                {
-                Intent intent = new Intent(Main_interface.this, Historique.class);
-                    intent.putExtra("historyHumd", (Serializable) historyHumd);
-                    intent.putExtra("historyTemp", (Serializable) historyTemp);
-                    intent.putExtra("historyWaterTemp", (Serializable) historyWaterTemp);
-                    intent.putExtra("date", (Serializable) date);
-                startActivity(intent);
-                }
-                else {
-                    Toast.makeText(Main_interface.this, "aucun base de donnee trouver s'il vous voyez verifier si vous ete connecter", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData(); // Force le rafraîchissement à chaque retour sur l'activité
+    }
+
+    // Ajoutez un menu ou bouton pour rafraîchir manuellement
+    public void onRefreshClick(View view) {
+        refreshData();
+        Toast.makeText(this, "Actualisation...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void refreshData() {
+        DocumentReference docRef = db.collection("users").document(userId);
+
+        // Désactive le cache pour cette requête
+        docRef.get(Source.SERVER)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null && document.exists()) {
+                            Double temperature = document.getDouble("temperature");
+                            Log.d("RefreshDebug", "Valeur serveur temperature: " + temperature);
+                            // Mettre à jour l'UI...
+                        }
+                    } else {
+                        Log.e("RefreshError", "Erreur rafraîchissement", task.getException());
+                    }
+                });
     }
 
     private void listenToFirestoreChanges() {
         DocumentReference docRef = db.collection("users").document(userId);
 
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        // Ajoutez ce log pour vérifier quel utilisateur est concerné
+        Log.d("FirestoreDebug", "Écoute des changements pour user: " + userId);
+
+        docRef.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot,
+                                @Nullable FirebaseFirestoreException e) {
+
+                if (e != null) {
+                    Log.w("FirestoreError", "Écoute failed.", e);
+                    return;
+                }
+
                 if (documentSnapshot != null && documentSnapshot.exists()) {
+                    // Ajoutez ce log pour voir les métadonnées
+                    Log.d("FirestoreDebug", "Données reçues. Depuis le cache? " +
+                            documentSnapshot.getMetadata().isFromCache());
+
                     try {
-                        // Retrieve the fields from the document
-                        Double waterTemp = documentSnapshot.getDouble("waterTemp");
-                        Double airTemp = documentSnapshot.getDouble("airTemp");
-                        Double airHumidity = documentSnapshot.getDouble("airHumidity");
-                        Double waterLevel = documentSnapshot.getDouble("waterLevel");
-                        Double phLevel = documentSnapshot.getDouble("waterPH");
-                        Double nutrientLevel = documentSnapshot.getDouble("waterNutrient");
-                        historyHumd = (List<Double>) documentSnapshot.get("historyHumd");
-                        historyTemp = (List<Double>) documentSnapshot.get("historytemp");
-                        historyWaterTemp = (List<Double>) documentSnapshot.get("historywaterTemp");
-                        date = (List<String>) documentSnapshot.get("date");
+                        Double soilMoisture = documentSnapshot.getDouble("soil_moisture");
+                        Double temperature = documentSnapshot.getDouble("temperature");
 
-                        // Update TextViews and ProgressBars
-                        if (waterTemp != null) {
-                            textViewWaterTemp.setText(String.format("%.2f°C", waterTemp));
-                            if (waterTemp < 17) {
-                                sendNotification("Water Temperature Alert", "Temperature is "+waterTemp+" Heat the water.");
-                            } else if (waterTemp > 20) {
-                                sendNotification("Water Temperature Alert", "Temperature is "+waterTemp+" cool the water.");
-                            }
-                        }
-                        if (airTemp != null) {
-                            textViewAirTemp.setText(String.format("%.2f°C", airTemp));
+                        // Log des valeurs reçues
+                        Log.d("FirestoreDebug", "Valeurs reçues - soil_moisture: " + soilMoisture +
+                                ", temperature: " + temperature);
 
-                        } else {
-                            textViewAirTemp.setText("N/A"); // Handle the case where airTemp is null
-                    }
-                        if (airHumidity != null) {
-                            textViewAirHumidity.setText(airHumidity + "%");
-                        }else {
-                            textViewAirHumidity.setText("N/A"); // Handle the case where airTemp is null
-                    }
-                        if (waterLevel != null) {
-                            waterlevelImg = (ImageView) findViewById(R.id.water_level_img);
-                            waterlevelImg.setPivotY(waterlevelImg.getHeight());
-                            waterlevelImg.animate().scaleY(waterLevel.floatValue() / 100f).setDuration(1000);
-                            textViewWaterLevel.setText(waterLevel.intValue()+"%");
-                            if (waterLevel < 40) {
-                                sendNotification("Water Level Alert", "Water level is below 40! add nutrient ");
+                        // Mise à jour UI
+                        runOnUiThread(() -> {
+                            if (soilMoisture != null) {
+                                textViewSoilMoisture.setText(String.format("%.0f%%", soilMoisture));
+                                waterlevelImg.setScaleY(soilMoisture.floatValue() / 100f);
                             }
-                        }
-                        if (phLevel != null) {
-                            textViewPH.setText(phLevel+"");
-                            if (phLevel < 5.5) {
-                                sendNotification("pH Level Alert", " Ph level is "+phLevel+" Add base.");
+                            if (temperature != null) {
+                                textViewTemperature.setText(String.format("%.1f°C", temperature));
                             }
-                            if (phLevel > 6.5) {
-                                sendNotification("pH Level Alert", " Ph level is "+phLevel+" Add acid.");
-                            }
-                        }
-
-                        if (nutrientLevel != null) {
-                            textViewNutrient.setText(String.valueOf(nutrientLevel.intValue()));
-                        } else {
-                            textViewNutrient.setText("N/A"); // Handle the case where airTemp is null
-                    }
-
-                        // Example: Trigger notifications based on temperature and humidity
-                        if (airTemp != null) {
-                            if (airTemp < 18) {
-                                sendNotification("Air Temperature Alert", "Temperature is "+airTemp+" Heat the air.");
-                            } else if (airTemp > 21) {
-                                sendNotification("Air Temperature Alert", "Temperature is "+airTemp+" cool the air.");
-                            }
-                        }
-
-                        if (airHumidity != null) {
-                            if (airHumidity < 60) {
-                                sendNotification("Air Humidity Alert", "Humidity is "+airHumidity+" Irrigate the plants.");
-                            } else if (airHumidity > 70) {
-                                sendNotification("Air Humidity Alert", "Humidity is "+airHumidity+" Open the windows.");
-                            }
-                        }
+                        });
 
                     } catch (Exception ex) {
-                        Log.e("FirestoreError", "Error retrieving data", ex);
-                        Toast.makeText(Main_interface.this, "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("FirestoreError", "Erreur traitement données", ex);
                     }
-                } else {
-                    // Handle case where no data is available
-                    textViewWaterTemp.setText("No data");
-                    textViewAirTemp.setText("No data");
-                    textViewAirHumidity.setText("No data");
-                    textViewPH.setText("No data");
-                    textViewNutrient.setText("No data");
-                    textViewWaterLevel.setText("No data");
                 }
             }
         });
     }
 
-    private void sendNotification(String msgTitle, String msgContent) {
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, Main_interface.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        } else {
-            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-        int notificationId = new Random().nextInt(10000); // Random ID for demonstration
+    private void sendNotification(String title, String message) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_warning)  // Replace with your app's icon
-                .setContentTitle(msgTitle)
-                .setContentText(msgContent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+                .setSmallIcon(R.drawable.ic_warning)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
-            notificationManager.notify(notificationId, builder.build());
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        if (manager != null) {
+            manager.notify(new Random().nextInt(), builder.build());
         }
     }
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Alerts";
-            String description = "Notifications for water level and environmental alerts";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Sensor Alerts",
+                    NotificationManager.IMPORTANCE_HIGH);
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            getSystemService(NotificationManager.class).createNotificationChannel(channel);
         }
     }
 }

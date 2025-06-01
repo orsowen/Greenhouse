@@ -11,11 +11,9 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".Historique"
-        >
+        tools:context=".Main_interface">
 
-        <!-- Circular ProgressBar -->
-
+        <!-- Soil Moisture Layout -->
         <LinearLayout
             android:id="@+id/waterLevelLayout"
             android:layout_width="match_parent"
@@ -25,44 +23,36 @@
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:id="@+id/title_water_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primaryDarkColor"
                 android:text="@string/water_level"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:textColor="@color/primaryDarkColor"
                 android:gravity="center"
                 android:textSize="25sp"
-                android:layout_marginTop="4dp"
+                android:layout_margin="4dp"
                 android:background="@drawable/border_title"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title_water_level"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:gravity="center"
-                >
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/wLevel"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text ="25 C"
+                    android:text="100%"
                     android:textAlignment="center"
                     android:textColor="@color/primaryDarkColor"
                     android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_margin="12sp"
+                    android:layout_weight="1"/>
 
                 <ImageView
                     android:id="@+id/water_level_img"
@@ -71,167 +61,11 @@
                     android:layout_margin="15dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_water_level"
-                    />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/water_ph_and_Nutrient_Layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:baselineAligned="false"
-            app:layout_constraintTop_toBottomOf="@id/waterLevelLayout"
-            app:layout_constraintStart_toStartOf="@id/waterLevelLayout"
-            app:layout_constraintEnd_toEndOf="@id/waterLevelLayout"
-            >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@drawable/border"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryDarkColor"
-                    android:text="@string/water_PH"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_title"/>
-
-                <TextView
-                    android:id="@+id/PH"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryDarkColor"
-                    android:layout_margin="4dp"
-                    android:text ="25"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/border"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/water_Nutrient"
-                    android:layout_marginLeft="4dp"
-                    android:textColor="@color/primaryDarkColor"
-                    android:layout_marginRight="4dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/border_title"/>
-
-                <TextView
-                    android:id="@+id/Nutrient"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryDarkColor"
-                    android:layout_margin="4dp"
-                    android:text ="25"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:src="@drawable/ic_water_level"/>
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/watertempLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:background="@drawable/border"
-            android:orientation="vertical"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/water_ph_and_Nutrient_Layout"
-            app:layout_constraintStart_toStartOf="@id/water_ph_and_Nutrient_Layout"
-            app:layout_constraintEnd_toEndOf="@id/water_ph_and_Nutrient_Layout"
-            >
-
-            <TextView
-                android:id="@+id/title_water_temp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_title"
-                android:text="@string/water_temp"
-                android:layout_marginLeft="4dp"
-                android:textColor="@color/primaryDarkColor"
-                android:layout_marginRight="4dp"
-                android:gravity="center"
-                android:textSize="25sp"
-                android:layout_marginTop="4dp"
-                />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title_water_temp"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:gravity="center"
-                >
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/water_temp"
-                    />
-
-                <TextView
-                    android:id="@+id/wTemp"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryDarkColor"
-                    android:layout_margin="4dp"
-                    android:text =""
-                    android:textAlignment="center"
-                    android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
+        <!-- Temperature Layout -->
         <LinearLayout
             android:id="@+id/AirtempLayout"
             android:layout_width="match_parent"
@@ -240,11 +74,9 @@
             android:background="@drawable/border"
             android:orientation="vertical"
             android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/watertempLayout"
-            app:layout_constraintStart_toStartOf="@id/watertempLayout"
-            app:layout_constraintEnd_toEndOf="@id/watertempLayout"
-
-            >
+            app:layout_constraintTop_toBottomOf="@id/waterLevelLayout"
+            app:layout_constraintStart_toStartOf="@id/waterLevelLayout"
+            app:layout_constraintEnd_toEndOf="@id/waterLevelLayout">
 
             <TextView
                 android:id="@+id/title_air_temp"
@@ -252,160 +84,80 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Air_temp"
                 android:textColor="@color/primaryDarkColor"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:gravity="center"
                 android:textSize="25sp"
-                android:layout_marginTop="4dp"
+                android:layout_margin="4dp"
                 android:background="@drawable/border_title"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title_air_temp"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:gravity="center"
-                >
+                android:gravity="center">
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/aire_temp__"
-                    />
+                    android:src="@drawable/aire_temp__"/>
 
                 <TextView
                     android:id="@+id/aTemp"
                     android:layout_width="100dp"
-                    android:textColor="@color/primaryDarkColor"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text =""
+                    android:text="26.7°C"
                     android:textAlignment="center"
+                    android:textColor="@color/primaryDarkColor"
                     android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_margin="12sp"
+                    android:layout_weight="1"/>
             </LinearLayout>
-
         </LinearLayout>
 
+        <!-- Historique Layout -->
         <LinearLayout
-            android:id="@+id/AirhumdLayout"
+            android:id="@+id/HistoriqueLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryDarkColor"
             android:layout_margin="12dp"
             android:background="@drawable/border"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/AirtempLayout"
             app:layout_constraintStart_toStartOf="@id/AirtempLayout"
             app:layout_constraintEnd_toEndOf="@id/AirtempLayout"
-            android:gravity="center"
-            >
-
-            <TextView
-                android:id="@+id/title_air_Humd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/Air_Humd"
-                android:textColor="@color/primaryDarkColor"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:gravity="center"
-                android:textSize="25sp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/border_title"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title_air_temp"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:gravity="center"
-                >
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/air_humidity"
-                    />
-
-                <TextView
-                    android:id="@+id/aHum"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryDarkColor"
-                    android:layout_margin="4dp"
-                    android:text =""
-                    android:textAlignment="center"
-                    android:textSize="45sp"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/HistoriqueLayout"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:background="@drawable/border"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/AirhumdLayout"
-            app:layout_constraintStart_toStartOf="@id/AirhumdLayout"
-            app:layout_constraintEnd_toEndOf="@id/AirhumdLayout"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/title_Historique_Layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primaryDarkColor"
                 android:text="@string/histo_title"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:textColor="@color/primaryDarkColor"
                 android:gravity="center"
                 android:textSize="25sp"
-                android:layout_marginTop="4dp"
+                android:layout_margin="4dp"
                 android:background="@drawable/border_title"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/title_air_temp"
                 android:orientation="horizontal"
                 android:weightSum="2"
-                android:gravity="center"
-                >
+                android:gravity="center">
 
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:text ="64 %"
+                    android:text="View History"
                     android:textAlignment="center"
-                    android:textSize="45sp"
+                    android:textSize="20sp"
                     android:textColor="@color/primaryDarkColor"
-                    android:layout_marginTop="12sp"
-                    android:layout_marginBottom="12sp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_margin="12sp"
+                    android:layout_weight="1"/>
             </LinearLayout>
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
